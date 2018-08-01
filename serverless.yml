@@ -7,5 +7,10 @@ provider:
   region: eu-west-2
 
 functions:
-  hello:
+  main:
     handler: handler.main
+    events:
+      - http:
+          path: time-to-read
+          method: post
+          cors: true
