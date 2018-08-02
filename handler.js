@@ -3,9 +3,16 @@ const timeToReadModule = require("./helpers/timeToRead");
 const timeNormalizer = require("./helpers/timeNormalizer");
 
 module.exports.main = (event, context, callback) => {
-  const text = JSON.parse(event.body).input;
+  const data = JSON.parse(event.body);
+  const text = data.input;
+
   const wordCount = text.split(" ").length;
-  const timeToRead = timeToReadModule.inMinutes(wordCount);
+  let timeToRead = timeToReadModule.inMinutes(wordCount);
+
+  if (data.readingSpeed) {
+    timeToRead = timeToRead + (timeToRead / 100) * data.readingSpeed;
+  }
+
   const response = {
     statusCode: 200,
     body: JSON.stringify({
