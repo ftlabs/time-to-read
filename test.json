@@ -1,0 +1,6 @@
+{
+  "resource": "/",
+  "path": "/",
+  "httpMethod": "GET",
+  "body": "{\"input\":\"hello my name is jamie\"}"
+}
