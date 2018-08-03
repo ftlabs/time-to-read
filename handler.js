@@ -7,11 +7,7 @@ module.exports.main = (event, context, callback) => {
   const text = data.input;
 
   const wordCount = text.split(" ").length;
-  let timeToRead = timeToReadModule.inMinutes(wordCount);
-
-  if (data.readingSpeed) {
-    timeToRead = timeToRead + (timeToRead / 100) * data.readingSpeed;
-  }
+  let timeToRead = timeToReadModule.inMinutes(wordCount, data.readingSpeed);
 
   const response = {
     statusCode: 200,
