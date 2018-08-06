@@ -9,6 +9,10 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "moment": "^2.22.2"
+    "cheerio": "^1.0.0-rc.2",
+    "dotenv": "^6.0.0",
+    "moment": "^2.22.2",
+    "node-fetch": "^2.2.0",
+    "npm": "^6.3.0"
   }
 }
