@@ -1,6 +1,7 @@
 const cheerio = require('cheerio');
 
-const IGNORE_ELEMENTS = 'recommended,ft-related,promo-box,pull-quote,big-number,table';
+const IGNORE_ELEMENTS =
+	'recommended,ft-related,promo-box,pull-quote,big-number,table';
 
 // Match a string of 3 or more characters with or without a space inbetween.
 const VISUAL_SEPARATOR = /^(?:[\-\*\.]\s?){3,}$/g;
@@ -13,8 +14,11 @@ const PARAGRAPH_MARK = '¶¶';
 const PARAGRAPH_FIND = new RegExp(`\\s*${PARAGRAPH_MARK}\\s*`, 'g');
 const PARAGRAPH_REPLACE = '\n\n';
 
-module.exports = (xml) => {
-	const $ = cheerio.load(xml, { decodeEntities: false, normalizeWhitespace: true });
+module.exports = xml => {
+	const $ = cheerio.load(xml, {
+		decodeEntities: false,
+		normalizeWhitespace: true
+	});
 
 	$(IGNORE_ELEMENTS).remove();
 
@@ -25,7 +29,7 @@ module.exports = (xml) => {
 	//
 	// 2. Remove any paragraphs which are intended to be visual separators, E.G.:
 	//    <p>---</p> or <p>. . .</p> or <p>* * *</p>
-	$paragraphs.each((i) => {
+	$paragraphs.each(i => {
 		const $ = $paragraphs.eq(i);
 		const text = $.text().trim();
 
@@ -36,7 +40,8 @@ module.exports = (xml) => {
 		}
 	});
 
-	const text = $('body').text()
+	const text = $('body')
+		.text()
 		.replace(PARAGRAPH_FIND, PARAGRAPH_REPLACE)
 		.replace(/\[ref url=\"\"\]/g, ' (reference: ') // tidy up [ref ] malarky in lexicon responses
 		.replace(/\[\/ref\]/g, ')')
