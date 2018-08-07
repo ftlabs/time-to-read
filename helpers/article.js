@@ -9,7 +9,7 @@ const CAPI_KEY = process.env.CAPI_KEY;
 
 async function getArticleText(uuid) {
 	const data = await getArticle(uuid);
-	return extractText(data.bodyXML);
+	return { text: extractText(data.bodyXML), imageCount: data.embeds.length };
 }
 
 function getArticle(uuid) {
@@ -24,7 +24,6 @@ function getArticle(uuid) {
 		.then(res => res.text())
 		.then(text => JSON.parse(text))
 		.catch(err => {
-			debug(`ERROR: article: err=${err}, capiUrl=${capiUrl}`);
 			throw err;
 		});
 }
