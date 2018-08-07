@@ -8,6 +8,18 @@ const article = require('./helpers/article');
 module.exports.main = async (event, context, callback) => {
 	const data = JSON.parse(event.body);
 
+	if (
+		typeof data.textInput !== 'array' ||
+		('string' && typeof data.articles !== 'array')
+	) {
+		const response = {
+			statusCode: 500,
+			error: 'Invalid data type supplied to textInput or articles'
+		};
+		console.log(response);
+		callback(null, response);
+	}
+
 	if (typeof data.textInput === 'array') data.textInput.join(' ');
 	let text = data.textInput || '';
 	const articles = data.articles || [];
