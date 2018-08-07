@@ -1,4 +1,4 @@
-function inMinutes(imageCounts) {
+function calculate(imageCounts) {
 	return inSeconds(imageCounts) / 60;
 }
 
@@ -16,4 +16,4 @@ function inSeconds(imageCounts) {
 		})
 		.reduce((a, b) => a + b, 0);
 }
-module.exports = { inMinutes };
+module.exports = { calculate };

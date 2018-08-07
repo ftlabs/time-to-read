@@ -1,24 +1,12 @@
 'use strict';
 require('dotenv').config();
-const timeToRead = require('./helpers/timeToRead');
+const timeToReadText = require('./helpers/timeToReadText');
 const timeToReadImages = require('./helpers/timeToReadImages');
 const timeNormalizer = require('./helpers/timeNormalizer');
 const article = require('./helpers/article');
 
 module.exports.main = async (event, context, callback) => {
 	const data = JSON.parse(event.body);
-
-	if (
-		typeof data.textInput !== 'array' ||
-		('string' && typeof data.articles !== 'array')
-	) {
-		const response = {
-			statusCode: 500,
-			error: 'Invalid data type supplied to textInput or articles'
-		};
-		console.log(response);
-		callback(null, response);
-	}
 
 	if (typeof data.textInput === 'array') data.textInput.join(' ');
 	let text = data.textInput || '';
@@ -28,12 +16,12 @@ module.exports.main = async (event, context, callback) => {
 		.then(results => {
 			text = `${text} ${results.map(result => result.text).join(' ')}`;
 			const wordCount = text.split(' ').length;
-			const imageTimeToRead = timeToReadImages.inMinutes(
+			const imageTime = timeToReadImages.calculate(
 				results.map(result => result.imageCount)
 			);
-			let timeToReadText = timeToRead.inMinutes(wordCount, data.readingSpeed);
+			let textTime = timeToReadText.calculate(wordCount, data.readingSpeed);
 
-			let totalTimeToRead = timeToReadText + imageTimeToRead;
+			let totalTimeToRead = textTime + imageTime;
 
 			const response = {
 				statusCode: 200,
