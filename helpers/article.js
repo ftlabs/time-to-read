@@ -3,7 +3,7 @@ require('dotenv').config();
 const fetch = require('node-fetch');
 const extractText = require('./extractText');
 
-const CAPI_PATH = 'http://api.ft.com/enrichedcontent/';
+const CAPI_PATH = 'https://api.ft.com/enrichedcontent/';
 
 const CAPI_KEY = process.env.CAPI_KEY;
 
